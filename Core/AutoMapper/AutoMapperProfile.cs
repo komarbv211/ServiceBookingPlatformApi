@@ -11,6 +11,9 @@ namespace Core.AutoMapper
             CreateMap<BookingDto, BookingEntity>().ReverseMap();
             CreateMap<ServiceDto, ServiceEntity>().ReverseMap();
             CreateMap<UserDto, UserEntity>().ReverseMap();
+            CreateMap<CategoryDto, CategoryEntity>().ReverseMap();
+            CreateMap<CreateCategoryDto, CategoryEntity>();
+            CreateMap<UpdateCategoryDto, CategoryEntity>();
         }
     }
 }

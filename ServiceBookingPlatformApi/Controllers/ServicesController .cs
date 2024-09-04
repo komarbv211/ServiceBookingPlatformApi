@@ -15,14 +15,14 @@ namespace ServiceBookingPlatformApi.Controllers
             _serviceService = serviceService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllServices()
         {
             var services = await _serviceService.GetAllServicesAsync();
             return Ok(services);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("GetById{id}")]
         public async Task<IActionResult> GetServiceById(int id)
         {
             var service = await _serviceService.GetServiceByIdAsync(id);
@@ -33,7 +33,7 @@ namespace ServiceBookingPlatformApi.Controllers
             return Ok(service);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateService([FromBody] ServiceDto serviceDto)
         {
             if (serviceDto == null)
@@ -45,7 +45,7 @@ namespace ServiceBookingPlatformApi.Controllers
             return CreatedAtAction(nameof(GetServiceById), new { id = serviceDto.Id }, serviceDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("Update{id}")]
         public async Task<IActionResult> UpdateService(int id, [FromBody] ServiceDto serviceDto)
         {
             if (id != serviceDto.Id)
@@ -63,7 +63,7 @@ namespace ServiceBookingPlatformApi.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete{id}")]
         public async Task<IActionResult> DeleteService(int id)
         {
             var service = await _serviceService.GetServiceByIdAsync(id);

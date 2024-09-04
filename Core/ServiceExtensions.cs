@@ -18,6 +18,7 @@ namespace Core
         public static IServiceCollection AddCoreServices(this IServiceCollection services)
         {
             services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             return services;
         }
     }
