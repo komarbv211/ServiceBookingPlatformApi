@@ -1,8 +1,9 @@
-﻿using Core.Interfaces;
+﻿using Core.Entities;
+using Core.Interfaces;
 
 namespace Data.Entities
 {
-    public class ServiceEntity : IEntity
+    public class ServiceEntity : BaseEntity
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -11,5 +12,8 @@ namespace Data.Entities
         public string Provider { get; set; }
         public int? CategoryId { get; set; }
         public CategoryEntity Category { get; set; }
+        public double Rating { get; set; } 
+        public int ReviewCount { get; set; } 
+        public string? ImageUrl { get; set; } 
     }
 }

@@ -8,5 +8,11 @@ namespace Core.Dto
         public string Description { get; set; }
         public decimal Price { get; set; }
         public string Provider { get; set; }
+        public double Rating { get; set; }
+        public int ReviewCount { get; set; }
+        public string ImageUrl { get; set; }
+
+        public int? CategoryId { get; set; }
+        public CategoryDto Category { get; set; }
     }
 }
