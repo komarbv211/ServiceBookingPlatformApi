@@ -1,5 +1,6 @@
-﻿
-namespace Core.Dto
+﻿using Core.Dto.DtoCategories;
+
+namespace Core.Dto.DtoServices
 {
     public class ServiceDto
     {

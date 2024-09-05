@@ -1,5 +1,4 @@
-﻿
-namespace Core.Dto
+﻿namespace Core.Dto.DtoUser
 {
     public class UserDto
     {

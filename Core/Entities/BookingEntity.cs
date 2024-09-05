@@ -12,7 +12,7 @@ namespace Data.Entities
         public UserEntity User { get; set; }
         public string Status { get; set; } 
         public decimal TotalAmount { get; set; }
-        public string PaymentStatus { get; set; } // "Paid", "Unpaid", "Refunded"
+        public string PaymentStatus { get; set; } = "Unpaid"; // "Paid", "Unpaid", "Refunded"
 
         public ICollection<BookingDetailEntity> BookingDetails { get; set; }
     }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Core.Dto;
+using Core.Dto.DtoCategories;
 using Core.Interfaces;
 using Data.Entities;
 using System;

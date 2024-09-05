@@ -1,5 +1,7 @@
-﻿
-namespace Core.Dto
+﻿using Core.Dto.DtoBookingDetail;
+using Core.Dto.DtoUser;
+
+namespace Core.Dto.DtoBooking
 {
     public class BookingDto
     {

@@ -19,6 +19,8 @@ namespace Core
         {
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IBookingService, BookingService>();
+            services.AddScoped<IBookingDetailService, BookingDetailService>();
             return services;
         }
     }

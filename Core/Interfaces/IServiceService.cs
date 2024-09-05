@@ -1,4 +1,4 @@
-﻿using Core.Dto;
+﻿using Core.Dto.DtoServices;
 
 namespace Core.Interfaces
 {

@@ -1,4 +1,4 @@
-﻿using Core.Dto;
+﻿using Core.Dto.DtoCategories;
 using Core.Interfaces;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
