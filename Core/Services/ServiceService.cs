@@ -28,14 +28,15 @@ namespace Core.Services
             return _mapper.Map<ServiceDto>(service);
         }
 
-        public async Task CreateServiceAsync(ServiceDto serviceDto)
+        public async Task<int> CreateServiceAsync(CreateServiceDto serviceDto)
         {
             var service = _mapper.Map<ServiceEntity>(serviceDto);
             await _serviceRepository.Insert(service);
             await _serviceRepository.Save();
+            return service.Id;
         }
 
-        public async Task UpdateServiceAsync(ServiceDto serviceDto)
+        public async Task UpdateServiceAsync(UpdateServiceDto serviceDto)
         {
             var service = _mapper.Map<ServiceEntity>(serviceDto);
             await _serviceRepository.Update(service);

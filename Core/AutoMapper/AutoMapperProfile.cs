@@ -22,6 +22,8 @@ namespace Core.AutoMapper
             CreateMap<UpdateBookingDetailDto, BookingDetailEntity>();
 
             CreateMap<ServiceDto, ServiceEntity>().ReverseMap();
+            CreateMap<CreateServiceDto, ServiceEntity>();
+            CreateMap<UpdateServiceDto, ServiceEntity>();
 
             CreateMap<UserDto, UserEntity>().ReverseMap();
 

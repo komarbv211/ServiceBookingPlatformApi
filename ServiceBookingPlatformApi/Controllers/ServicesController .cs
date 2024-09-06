@@ -34,19 +34,19 @@ namespace ServiceBookingPlatformApi.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateService([FromBody] ServiceDto serviceDto)
+        public async Task<IActionResult> CreateService([FromBody] CreateServiceDto serviceDto)
         {
             if (serviceDto == null)
             {
                 return BadRequest();
             }
 
-            await _serviceService.CreateServiceAsync(serviceDto);
-            return CreatedAtAction(nameof(GetServiceById), new { id = serviceDto.Id }, serviceDto);
+            var newServiceId = await _serviceService.CreateServiceAsync(serviceDto);
+            return CreatedAtAction(nameof(GetServiceById), new { id = newServiceId }, serviceDto);
         }
 
         [HttpPut("Update{id}")]
-        public async Task<IActionResult> UpdateService(int id, [FromBody] ServiceDto serviceDto)
+        public async Task<IActionResult> UpdateService(int id, [FromBody] UpdateServiceDto serviceDto)
         {
             if (id != serviceDto.Id)
             {

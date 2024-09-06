@@ -6,8 +6,8 @@ namespace Core.Interfaces
     {
         Task<IEnumerable<ServiceDto>> GetAllServicesAsync();
         Task<ServiceDto> GetServiceByIdAsync(int id);
-        Task CreateServiceAsync(ServiceDto serviceDto);
-        Task UpdateServiceAsync(ServiceDto serviceDto);
+        Task<int> CreateServiceAsync(CreateServiceDto serviceDto);
+        Task UpdateServiceAsync(UpdateServiceDto serviceDto);
         Task DeleteServiceAsync(int id);
     }
 }

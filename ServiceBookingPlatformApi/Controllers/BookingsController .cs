@@ -57,44 +57,42 @@ namespace ServiceBookingPlatformApi.Controllers
                 return BadRequest();
             }
 
-            try
-            {
-                await _bookingService.UpdateBookingAsync(updateBookingDto);
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
+            var existingBooking = await _bookingService.GetBookingByIdAsync(id);
+            if (existingBooking == null)
             {
                 return NotFound();
             }
+
+            await _bookingService.UpdateBookingAsync(updateBookingDto);
+            return NoContent();
         }
 
         [HttpPatch("pay/{id}")]
         public async Task<IActionResult> MarkAsPaid(int id)
         {
-            try
-            {
-                await _bookingService.UpdatePaymentStatusAsync(id, "Paid");
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
+            var existingBooking = await _bookingService.GetBookingByIdAsync(id);
+            if (existingBooking == null)
             {
                 return NotFound();
             }
-        }
-        [HttpPatch("refund/{id}")]
 
+            await _bookingService.UpdatePaymentStatusAsync(id, "Paid");
+            return NoContent();
+        }
+
+        [HttpPatch("refund/{id}")]
         public async Task<IActionResult> MarkAsRefunded(int id)
         {
-            try
-            {
-                await _bookingService.UpdatePaymentStatusAsync(id, "Refunded");
-                return NoContent();
-            }
-            catch (KeyNotFoundException)
+            var existingBooking = await _bookingService.GetBookingByIdAsync(id);
+            if (existingBooking == null)
             {
                 return NotFound();
             }
+
+            await _bookingService.UpdatePaymentStatusAsync(id, "Refunded");
+            return NoContent();
         }
+
         [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> DeleteBooking(int id)
         {
