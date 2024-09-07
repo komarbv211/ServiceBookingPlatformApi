@@ -27,7 +27,7 @@ builder.Services.AddCoreServices();
 builder.Services.AddRepositories();
 
 // fluent validators
-//builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
