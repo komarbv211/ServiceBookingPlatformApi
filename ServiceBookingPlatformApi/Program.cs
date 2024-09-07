@@ -1,6 +1,8 @@
 using Data;
 using Core;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,10 @@ builder.Services.AddCoreServices();
 // Додаємо сервіси репозиторіїв
 builder.Services.AddRepositories();
 
+// fluent validators
+//builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 // Налаштування конвеєра HTTP запитів

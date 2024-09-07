@@ -2,6 +2,8 @@
 using Core.Dto.DtoServices;
 using Core.Interfaces;
 using Data.Entities;
+using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Services
 {
@@ -9,11 +11,12 @@ namespace Core.Services
     {
         private readonly IRepository<ServiceEntity> _serviceRepository;
         private readonly IMapper _mapper;
-
-        public ServiceService(IRepository<ServiceEntity> serviceRepository, IMapper mapper)
+        private readonly IValidator<CreateServiceDto> _validator;
+        public ServiceService(IRepository<ServiceEntity> serviceRepository, IMapper mapper, IValidator<CreateServiceDto> validator)
         {
             _serviceRepository = serviceRepository;
             _mapper = mapper;
+            _validator = validator;
         }
 
         public async Task<IEnumerable<ServiceDto>> GetAllServicesAsync()
@@ -30,6 +33,7 @@ namespace Core.Services
 
         public async Task<int> CreateServiceAsync(CreateServiceDto serviceDto)
         {
+            _validator.ValidateAndThrow(serviceDto);
             var service = _mapper.Map<ServiceEntity>(serviceDto);
             await _serviceRepository.Insert(service);
             await _serviceRepository.Save();
