@@ -3,6 +3,7 @@ using Core;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using FluentValidation;
+using ServiceBookingPlatformApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseMiddleware<CustomMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();

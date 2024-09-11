@@ -1,6 +1,8 @@
 using Core.Dto.DtoServices;
+using Core.Exceptions;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ServiceBookingPlatformApi.Controllers
 {
@@ -28,7 +30,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var service = await _serviceService.GetServiceByIdAsync(id);
             if (service == null)
             {
-                return NotFound();
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
             }
             return Ok(service);
         }
@@ -36,11 +38,6 @@ namespace ServiceBookingPlatformApi.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateService([FromBody] CreateServiceDto serviceDto)
         {
-            if (serviceDto == null)
-            {
-                return BadRequest();
-            }
-
             var newServiceId = await _serviceService.CreateServiceAsync(serviceDto);
             return CreatedAtAction(nameof(GetServiceById), new { id = newServiceId }, serviceDto);
         }
@@ -50,13 +47,13 @@ namespace ServiceBookingPlatformApi.Controllers
         {
             if (id != serviceDto.Id)
             {
-                return BadRequest();
+                return BadRequest("ID in the URL does not match the ID in the body.");
             }
 
             var existingService = await _serviceService.GetServiceByIdAsync(id);
             if (existingService == null)
             {
-                return NotFound();
+                throw new HttpException("Service not found!", HttpStatusCode.NotFound);
             }
 
             await _serviceService.UpdateServiceAsync(serviceDto);
@@ -69,7 +66,8 @@ namespace ServiceBookingPlatformApi.Controllers
             var service = await _serviceService.GetServiceByIdAsync(id);
             if (service == null)
             {
-                return NotFound();
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+
             }
 
             await _serviceService.DeleteServiceAsync(id);

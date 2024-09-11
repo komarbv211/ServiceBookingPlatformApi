@@ -1,7 +1,9 @@
 ﻿using Core.Dto.DtoCategories;
+using Core.Exceptions;
 using Core.Interfaces;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace ServiceBookingPlatformApi.Controllers
 {
@@ -29,7 +31,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
-                return NotFound();
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
             }
             return Ok(category);
         }
@@ -37,11 +39,6 @@ namespace ServiceBookingPlatformApi.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)
         {
-            if (createCategoryDto == null)
-            {
-                return BadRequest();
-            }
-
             await _categoryService.CreateCategoryAsync(createCategoryDto);
             return CreatedAtAction(nameof(GetCategoryById), new { id = createCategoryDto.Name }, createCategoryDto);
         }
@@ -51,13 +48,13 @@ namespace ServiceBookingPlatformApi.Controllers
         {
             if (id != updateCategoryDto.Id)
             {
-                return BadRequest();
+                return BadRequest("ID in the URL does not match the ID in the body.");
             }
 
             var existingCategory = await _categoryService.GetCategoryByIdAsync(id);
             if (existingCategory == null)
             {
-                return NotFound();
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
             }
 
             await _categoryService.UpdateCategoryAsync(updateCategoryDto);
@@ -70,7 +67,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var category = await _categoryService.GetCategoryByIdAsync(id);
             if (category == null)
             {
-                return NotFound();
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
             }
 
             await _categoryService.DeleteCategoryAsync(id);
