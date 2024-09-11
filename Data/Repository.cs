@@ -1,6 +1,7 @@
 ﻿using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Data
@@ -30,14 +31,39 @@ namespace Data
                 dbSet.Attach(entityToDelete);
             }
             dbSet.Remove(entityToDelete);
-            await context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()  
         {
             return await dbSet.ToListAsync();
         }
+        public async Task<IEnumerable<TEntity>> Get(
+            Expression<Func<TEntity, bool>> filter = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            string includeProperties = "")
+        {
+            IQueryable<TEntity> query = dbSet;
 
+            if (filter != null)
+            {
+                query = query.Where(filter);
+            }
+
+            foreach (var includeProperty in includeProperties.Split
+                (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return await orderBy(query).ToListAsync();
+            }
+            else
+            {
+                return await query.ToListAsync();
+            }
+        }
         public async Task<TEntity?> GetByID(object id) 
         {
             return await dbSet.FindAsync(id);
@@ -46,7 +72,6 @@ namespace Data
         public async Task Insert(TEntity entity)
         {
             await dbSet.AddAsync(entity);
-            await context.SaveChangesAsync();
         }
 
         public async Task Save()
@@ -54,11 +79,13 @@ namespace Data
             await context.SaveChangesAsync();
         }
 
-        public async Task Update(TEntity entityToUpdate)
+        public Task Update(TEntity entityToUpdate)
         {
-            dbSet.Attach(entityToUpdate);
-            context.Entry(entityToUpdate).State = EntityState.Modified;
-            await context.SaveChangesAsync();
+            return Task.Run(() =>
+            {
+                dbSet.Attach(entityToUpdate);
+                context.Entry(entityToUpdate).State = EntityState.Modified;
+            });
         }
     }
 }
