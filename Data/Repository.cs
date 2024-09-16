@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Data
 {
-    internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
+    internal class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         internal required AppDbContext context;
         internal required DbSet<TEntity> dbSet;

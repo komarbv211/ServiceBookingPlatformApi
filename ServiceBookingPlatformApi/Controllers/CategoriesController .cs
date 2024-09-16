@@ -43,20 +43,9 @@ namespace ServiceBookingPlatformApi.Controllers
             return CreatedAtAction(nameof(GetCategoryById), new { id = createCategoryDto.Name }, createCategoryDto);
         }
 
-        [HttpPut("Update{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] UpdateCategoryDto updateCategoryDto)
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDto updateCategoryDto)
         {
-            if (id != updateCategoryDto.Id)
-            {
-                return BadRequest("ID in the URL does not match the ID in the body.");
-            }
-
-            var existingCategory = await _categoryService.GetCategoryByIdAsync(id);
-            if (existingCategory == null)
-            {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
-            }
-
             await _categoryService.UpdateCategoryAsync(updateCategoryDto);
             return NoContent();
         }

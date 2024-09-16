@@ -1,19 +1,14 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using Microsoft.AspNetCore.Identity;
 
 namespace Data.Entities
 {
-    public class UserEntity : BaseEntity
+    public class UserEntity : IdentityUser
     {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-
-        public string PasswordHash { get; set; }
-        public string Role { get; set; } 
-        public string PhoneNumber { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? Birthdate { get; set; }
+        public string? Role { get; set; } 
+        public DateTime CreatedDate { get; set; } 
         public DateTime LastLoginDate { get; set; }
     }
 }

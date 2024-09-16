@@ -1,7 +1,7 @@
 ﻿
 namespace Core.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class, IEntity
+    public interface IRepository<TEntity> where TEntity : class
     {
         Task Save();
         Task<IEnumerable<TEntity>> GetAll();

@@ -47,20 +47,9 @@ namespace ServiceBookingPlatformApi.Controllers
             return CreatedAtAction(nameof(GetBookingById), new { id = newBookingId }, createBookingDto);
         }
 
-        [HttpPut("Update/{id}")]
-        public async Task<IActionResult> UpdateBooking(int id, [FromBody] UpdateBookingDto updateBookingDto)
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateBooking([FromBody] UpdateBookingDto updateBookingDto)
         {
-            if (id != updateBookingDto.Id)
-            {
-                return BadRequest("ID in the URL does not match the ID in the body.");
-            }
-
-            var existingBooking = await _bookingService.GetBookingByIdAsync(id);
-            if (existingBooking == null)
-            {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
-            }
-
             await _bookingService.UpdateBookingAsync(updateBookingDto);
             return NoContent();
         }

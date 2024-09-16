@@ -42,19 +42,9 @@ namespace ServiceBookingPlatformApi.Controllers
             return CreatedAtAction(nameof(GetServiceById), new { id = newServiceId }, serviceDto);
         }
 
-        [HttpPut("Update{id}")]
-        public async Task<IActionResult> UpdateService(int id, [FromBody] UpdateServiceDto serviceDto)
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateService([FromBody] UpdateServiceDto serviceDto)
         {
-            if (id != serviceDto.Id)
-            {
-                return BadRequest("ID in the URL does not match the ID in the body.");
-            }
-
-            var existingService = await _serviceService.GetServiceByIdAsync(id);
-            if (existingService == null)
-            {
-                throw new HttpException("Service not found!", HttpStatusCode.NotFound);
-            }
 
             await _serviceService.UpdateServiceAsync(serviceDto);
             return NoContent();

@@ -23,14 +23,9 @@ namespace Data.DataSeeder
                 new ServiceEntity { Id = 2, Name = "Gardening", Description = "Garden maintenance service", Price = 150, Provider = "GreenThumb", CategoryId = 1 }
             );
 
-            modelBuilder.Entity<UserEntity>().HasData(
-                new UserEntity { Id = 1, FirstName = "John", LastName = "Doe", Email = "john.doe@example.com", PasswordHash = "hashed_password_1", Role = "User", PhoneNumber = "123456789" },
-                new UserEntity { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "jane.smith@example.com", PasswordHash = "hashed_password_2", Role = "Admin", PhoneNumber = "987654321" }
-            );
-
             modelBuilder.Entity<BookingEntity>().HasData(
-                new BookingEntity { Id = 1, UserId = 1, BookingDate = DateTime.UtcNow, Status = "Confirmed", TotalAmount = 100, PaymentStatus = "Paid" },
-                new BookingEntity { Id = 2, UserId = 2, BookingDate = DateTime.UtcNow, Status = "Pending", TotalAmount = 150, PaymentStatus = "Unpaid" }
+                new BookingEntity { Id = 1,  BookingDate = DateTime.UtcNow, Status = "Confirmed", TotalAmount = 100, PaymentStatus = "Paid" },
+                new BookingEntity { Id = 2,  BookingDate = DateTime.UtcNow, Status = "Pending", TotalAmount = 150, PaymentStatus = "Unpaid" }
             );
             
             modelBuilder.Entity<BookingDetailEntity>().HasData(

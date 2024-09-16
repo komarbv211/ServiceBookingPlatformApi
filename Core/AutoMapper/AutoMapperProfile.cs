@@ -26,6 +26,8 @@ namespace Core.AutoMapper
             CreateMap<UpdateServiceDto, ServiceEntity>();
 
             CreateMap<UserDto, UserEntity>().ReverseMap();
+            CreateMap<CreateUserDto, UserEntity>();
+            CreateMap<UpdateUserDto, UserEntity>();
 
             CreateMap<CategoryDto, CategoryEntity>().ReverseMap();
             CreateMap<CreateCategoryDto, CategoryEntity>();
