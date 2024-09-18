@@ -11,54 +11,34 @@ using Core.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using ServiceBookingPlatformApi.ServiceExtensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Додаємо сервіси до контейнера
 builder.Services.AddControllers();
 
-builder.Services.AddSingleton(_ =>
-              builder.Configuration
-                  .GetSection(nameof(JwtOptions))
-                  .Get<JwtOptions>()!);
+// Налаштовуємо JwtOptions через окремий метод
+builder.Services.AddJwtOptions(builder.Configuration);
 
+// Отримуємо налаштування JWT
 var jwtOpts = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>()!;
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(o =>
-                {
-                    o.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = false,
-                        ValidateLifetime = true,
-                        ValidateIssuerSigningKey = true,
-                        ValidIssuer = jwtOpts.Issuer,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpts.Key)),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
+// Викликаємо розширення для JWT
+builder.Services.AddJwtAuthentication(jwtOpts);
+
+// Викликаємо метод для авторизаційних політик
+builder.Services.AddAuthorizationPolicies();
 
 // Налаштування Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Налаштування Identity з використанням ролей
-builder.Services.AddIdentity<UserEntity, IdentityRole>(options =>
-    options.SignIn.RequireConfirmedAccount = true)
-    .AddDefaultTokenProviders()
-    .AddEntityFrameworkStores<AppDbContext>();
-// Додаємо авторизацію
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("ServiceProviderOnly", policy => policy.RequireRole("ServiceProvider"));
-    options.AddPolicy("ClientOnly", policy => policy.RequireRole("Client"));
-});
+builder.Services.AddIdentityWithRoles();
 
 // Додаємо Entity Framework і контекст бази даних
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAppDbContext(builder.Configuration.GetConnectionString("DefaultConnection")!);
 
 // Додаємо AutoMapper
 builder.Services.AddMapping();
