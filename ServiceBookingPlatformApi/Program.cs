@@ -7,11 +7,37 @@ using ServiceBookingPlatformApi.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using Data.Entities;
 using Data.DataInitializer;
+using Core.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Додаємо сервіси до контейнера
 builder.Services.AddControllers();
+
+builder.Services.AddSingleton(_ =>
+              builder.Configuration
+                  .GetSection(nameof(JwtOptions))
+                  .Get<JwtOptions>()!);
+
+var jwtOpts = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>()!;
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(o =>
+                {
+                    o.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = jwtOpts.Issuer,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOpts.Key)),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
 // Налаштування Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();

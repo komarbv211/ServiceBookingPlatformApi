@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Core.Dto.DtoAuthorization;
 using Core.Dto.DtoBooking;
 using Core.Dto.DtoBookingDetail;
 using Core.Dto.DtoCategories;
@@ -26,7 +27,8 @@ namespace Core.AutoMapper
             CreateMap<UpdateServiceDto, ServiceEntity>();
 
             CreateMap<UserDto, UserEntity>().ReverseMap();
-            CreateMap<CreateUserDto, UserEntity>();
+            CreateMap<RegisterDto, UserEntity>()
+                    .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email)); CreateMap<CreateUserDto, UserEntity>();
             CreateMap<UpdateUserDto, UserEntity>();
 
             CreateMap<CategoryDto, CategoryEntity>().ReverseMap();

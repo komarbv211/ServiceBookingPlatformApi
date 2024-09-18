@@ -22,6 +22,9 @@ namespace Core
             services.AddScoped<IBookingService, BookingService>();
             services.AddScoped<IBookingDetailService, BookingDetailService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAccountsService, AccountsService>();
+            services.AddScoped<IJwtService, JwtService>();
+
             return services;
         }
     }
