@@ -8,6 +8,8 @@ namespace Core.Dto.DtoBookingDetail
 {
     public class CreateBookingDetailDto
     {
+        public int BookingId { get; set; }
+
         public int ServiceId { get; set; }
         public DateTime ScheduledDate { get; set; }
         public string Address { get; set; }

@@ -14,6 +14,5 @@ namespace Core.Dto.DtoServices
         public string ImageUrl { get; set; }
 
         public int? CategoryId { get; set; }
-        public CategoryDto Category { get; set; }
     }
 }

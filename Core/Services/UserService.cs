@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Dto.DtoUser;
 using Core.Interfaces;
+using Core.Specifications;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -64,5 +65,19 @@ namespace Core.Services
             await _userRepository.Delete(user);
             await _userRepository.Save();
         }
+        public async Task<IEnumerable<UserDto>> GetUsersByRoleAsync(string role)
+        {
+            var spec = new UserSpecs.ByRole(role);
+            var users = await _userRepository.GetListBySpec(spec);
+            return _mapper.Map<IEnumerable<UserDto>>(users);
+        }
+
+        public async Task<IEnumerable<UserDto>> GetUsersByRegistrationDateAsync(DateTime startDate, DateTime endDate)
+        {
+            var spec = new UserSpecs.ByRegistrationDate(startDate, endDate);
+            var users = await _userRepository.GetListBySpec(spec);
+            return _mapper.Map<IEnumerable<UserDto>>(users);
+        }
+
     }
 }

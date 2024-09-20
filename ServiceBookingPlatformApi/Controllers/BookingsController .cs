@@ -28,13 +28,31 @@ namespace ServiceBookingPlatformApi.Controllers
             return Ok(bookings);
         }
 
+        [HttpGet("GetAllWithDetails")]
+        public async Task<IActionResult> GetAllBookingsWithDetails()
+        {
+            var bookings = await _bookingService.GetAllBookingsAndBookingDetailAsync();
+            return Ok(bookings);
+        }
+
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetBookingById(int id)
         {
             var booking = await _bookingService.GetBookingByIdAsync(id);
             if (booking == null)
             {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+                throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
+            }
+            return Ok(booking);
+        }
+
+        [HttpGet("GetByIdWithDetails/{id}")]
+        public async Task<IActionResult> GetBookingByIdWithDetails(int id)
+        {
+            var booking = await _bookingService.GetBookingByIdAndBookingDetailAsync(id);
+            if (booking == null)
+            {
+                throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
             }
             return Ok(booking);
         }
@@ -42,9 +60,9 @@ namespace ServiceBookingPlatformApi.Controllers
         [HttpPost("Create")]
         public async Task<IActionResult> CreateBooking([FromBody] CreateBookingDto createBookingDto)
         {
-            var newBookingId = await _bookingService.CreateBookingAsync(createBookingDto);
+            await _bookingService.CreateBookingAsync(createBookingDto);
 
-            return CreatedAtAction(nameof(GetBookingById), new { id = newBookingId }, createBookingDto);
+            return Ok();
         }
 
         [HttpPut("Update")]
@@ -60,7 +78,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var existingBooking = await _bookingService.GetBookingByIdAsync(id);
             if (existingBooking == null)
             {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+                throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
             }
 
             await _bookingService.UpdatePaymentStatusAsync(id, "Paid");
@@ -73,7 +91,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var existingBooking = await _bookingService.GetBookingByIdAsync(id);
             if (existingBooking == null)
             {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+                throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
             }
 
             await _bookingService.UpdatePaymentStatusAsync(id, "Refunded");
@@ -87,7 +105,7 @@ namespace ServiceBookingPlatformApi.Controllers
             var booking = await _bookingService.GetBookingByIdAsync(id);
             if (booking == null)
             {
-                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+                throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
             }
                 await _bookingService.DeleteBookingAsync(id);
                 return NoContent();

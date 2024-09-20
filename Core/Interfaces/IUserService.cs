@@ -18,5 +18,8 @@ namespace Core.Interfaces
         Task UpdateUserAsync(UpdateUserDto updateUserDto);
 
         Task DeleteUserAsync(string id);
+
+        Task<IEnumerable<UserDto>> GetUsersByRoleAsync(string role);
+        Task<IEnumerable<UserDto>> GetUsersByRegistrationDateAsync(DateTime startDate, DateTime endDate);
     }
 }

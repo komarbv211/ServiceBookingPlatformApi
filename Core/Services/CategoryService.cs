@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Dto.DtoCategories;
 using Core.Interfaces;
+using Core.Specifications;
 using Data.Entities;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,11 @@ namespace Core.Services
         public async Task<CategoryDto> GetCategoryByIdAsync(int id)
         {
             var category = await _categoryRepository.GetByID(id);
+            return _mapper.Map<CategoryDto>(category);
+        }
+        public async Task<CategoryDto> GetCategorySpecsByIdAsync(int id)
+        {
+            var category = await _categoryRepository.GetItemBySpec(new CategorySpecs.ById(id));
             return _mapper.Map<CategoryDto>(category);
         }
 

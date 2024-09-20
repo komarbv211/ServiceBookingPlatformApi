@@ -63,5 +63,25 @@ namespace ServiceBookingPlatformApi.Controllers
             await _serviceService.DeleteServiceAsync(id);
             return NoContent();
         }
+        [HttpGet("GetByCategoryId/{categoryId}")]
+        public async Task<IActionResult> GetServicesByCategoryId(int categoryId)
+        {
+            var services = await _serviceService.GetServicesByCategoryIdAsync(categoryId);
+            return Ok(services);
+        }
+
+        [HttpGet("GetByRating/{rating}")]
+        public async Task<IActionResult> GetServicesByRating(int rating)
+        {
+            var services = await _serviceService.GetServicesByRatingAsync(rating);
+            return Ok(services);
+        }
+
+        [HttpGet("GetByPriceRange/{minPrice}/{maxPrice}")]
+        public async Task<IActionResult> GetServicesByPriceRange(decimal minPrice, decimal maxPrice)
+        {
+            var services = await _serviceService.GetServicesByPriceRangeAsync(minPrice, maxPrice);
+            return Ok(services);
+        }
     }
 }

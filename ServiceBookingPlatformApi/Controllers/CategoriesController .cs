@@ -35,6 +35,16 @@ namespace ServiceBookingPlatformApi.Controllers
             }
             return Ok(category);
         }
+        [HttpGet("GetByWithServices/{id}")]
+        public async Task<IActionResult> GetCategorySpecsByIdAsync(int id)
+        {
+            var category = await _categoryService.GetCategoryByIdAsync(id);
+            if (category == null)
+            {
+                throw new HttpException("Product not found!", HttpStatusCode.NotFound);
+            }
+            return Ok(category);
+        }
 
         [HttpPost("Create")]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto createCategoryDto)

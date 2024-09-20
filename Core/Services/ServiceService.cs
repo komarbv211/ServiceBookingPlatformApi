@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Core.Dto.DtoServices;
 using Core.Interfaces;
+using Core.Specifications;
 using Data.Entities;
 using FluentValidation;
 using System.ComponentModel.DataAnnotations;
@@ -55,6 +56,26 @@ namespace Core.Services
                 await _serviceRepository.Delete(service);
                 await _serviceRepository.Save();
             }
+        }
+        public async Task<IEnumerable<ServiceDto>> GetServicesByCategoryIdAsync(int categoryId)
+        {
+            var spec = new ServiceSpecs.ByCategoryId(categoryId);
+            var services = await _serviceRepository.GetListBySpec(spec);
+            return _mapper.Map<IEnumerable<ServiceDto>>(services);
+        }
+
+        public async Task<IEnumerable<ServiceDto>> GetServicesByRatingAsync(int rating)
+        {
+            var spec = new ServiceSpecs.ByRating(rating);
+            var services = await _serviceRepository.GetListBySpec(spec);
+            return _mapper.Map<IEnumerable<ServiceDto>>(services);
+        }
+
+        public async Task<IEnumerable<ServiceDto>> GetServicesByPriceRangeAsync(decimal minPrice, decimal maxPrice)
+        {
+            var spec = new ServiceSpecs.ByPriceRange(minPrice, maxPrice);
+            var services = await _serviceRepository.GetListBySpec(spec);
+            return _mapper.Map<IEnumerable<ServiceDto>>(services);
         }
     }
 }

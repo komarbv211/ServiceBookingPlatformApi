@@ -24,8 +24,8 @@ namespace Data.DataSeeder
             );
 
             modelBuilder.Entity<BookingEntity>().HasData(
-                new BookingEntity { Id = 1,  BookingDate = DateTime.UtcNow, Status = "Confirmed", TotalAmount = 100, PaymentStatus = "Paid" },
-                new BookingEntity { Id = 2,  BookingDate = DateTime.UtcNow, Status = "Pending", TotalAmount = 150, PaymentStatus = "Unpaid" }
+                new BookingEntity { Id = 1, UserId = "9ee7e8b2-e29a-486d-b4f5-70c52d2cd2d1",  BookingDate = DateTime.UtcNow, Status = "Confirmed", TotalAmount = 100, PaymentStatus = "Paid" },
+                new BookingEntity { Id = 2, UserId = "9ee7e8b2-e29a-486d-b4f5-70c52d2cd2d1", BookingDate = DateTime.UtcNow, Status = "Pending", TotalAmount = 150, PaymentStatus = "Unpaid" }
             );
             
             modelBuilder.Entity<BookingDetailEntity>().HasData(

@@ -1,5 +1,6 @@
 ﻿using Core.Entities;
 using Core.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace Data.Entities
 {
@@ -11,6 +12,7 @@ namespace Data.Entities
         public decimal Price { get; set; }
         public string Provider { get; set; }
         public int? CategoryId { get; set; }
+        [JsonIgnore]
         public CategoryEntity Category { get; set; }
         public double Rating { get; set; } 
         public int ReviewCount { get; set; } 

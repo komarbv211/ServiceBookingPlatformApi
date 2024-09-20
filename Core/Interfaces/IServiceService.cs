@@ -9,5 +9,8 @@ namespace Core.Interfaces
         Task<int> CreateServiceAsync(CreateServiceDto serviceDto);
         Task UpdateServiceAsync(UpdateServiceDto serviceDto);
         Task DeleteServiceAsync(int id);
+        Task<IEnumerable<ServiceDto>> GetServicesByCategoryIdAsync(int categoryId);
+        Task<IEnumerable<ServiceDto>> GetServicesByRatingAsync(int rating);
+        Task<IEnumerable<ServiceDto>> GetServicesByPriceRangeAsync(decimal minPrice, decimal maxPrice);
     }
 }

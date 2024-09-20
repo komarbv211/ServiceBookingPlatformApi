@@ -1,4 +1,6 @@
-﻿using Core.Interfaces;
+﻿using Ardalis.Specification.EntityFrameworkCore;
+using Ardalis.Specification;
+using Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -86,6 +88,22 @@ namespace Data
                 dbSet.Attach(entityToUpdate);
                 context.Entry(entityToUpdate).State = EntityState.Modified;
             });
+        }
+
+        public async Task<TEntity?> GetItemBySpec(Ardalis.Specification.ISpecification<TEntity> specification)
+        {
+            return await ApplySpecification(specification).FirstOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<TEntity>> GetListBySpec(Ardalis.Specification.ISpecification<TEntity> specification)
+        {
+            return await ApplySpecification(specification).ToListAsync();
+        }
+
+        private IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
+        {
+            var evaluator = new SpecificationEvaluator();
+            return evaluator.GetQuery(dbSet, specification);
         }
     }
 }

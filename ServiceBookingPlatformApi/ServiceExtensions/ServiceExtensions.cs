@@ -37,7 +37,7 @@ namespace ServiceBookingPlatformApi.ServiceExtensions
                 configuration
                     .GetSection(nameof(JwtOptions))
                     .Get<JwtOptions>()!);
-
+            
             return services;
         }
 

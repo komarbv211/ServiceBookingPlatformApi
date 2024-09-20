@@ -1,4 +1,6 @@
 ﻿
+using Ardalis.Specification;
+
 namespace Core.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : class
@@ -10,5 +12,7 @@ namespace Core.Interfaces
         Task Delete(object id);
         Task Delete(TEntity entityToDelete);
         Task Update(TEntity entity);
+        Task<TEntity?> GetItemBySpec(ISpecification<TEntity> specification);
+        Task<IEnumerable<TEntity>> GetListBySpec(ISpecification<TEntity> specification);
     }
 }

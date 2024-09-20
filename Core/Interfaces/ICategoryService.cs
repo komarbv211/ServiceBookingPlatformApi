@@ -14,5 +14,6 @@ namespace Core.Interfaces
         Task CreateCategoryAsync(CreateCategoryDto createCategoryDto); 
         Task UpdateCategoryAsync(UpdateCategoryDto updateCategoryDto); 
         Task DeleteCategoryAsync(int id);
+        Task<CategoryDto> GetCategorySpecsByIdAsync(int id);
     }
 }

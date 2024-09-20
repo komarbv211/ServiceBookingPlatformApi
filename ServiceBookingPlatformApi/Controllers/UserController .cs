@@ -37,6 +37,19 @@ namespace ServiceBookingPlatformApi.Controllers
                 throw new HttpException("User not found!", HttpStatusCode.NotFound);
             }
         }
+        [HttpGet("GetByRole/{role}")]
+        public async Task<IActionResult> GetUsersByRole(string role)
+        {
+            var users = await _userService.GetUsersByRoleAsync(role);
+            return Ok(users);
+        }
+
+        [HttpGet("GetByRegistrationDate")]
+        public async Task<IActionResult> GetUsersByRegistrationDate(DateTime startDate, DateTime endDate)
+        {
+            var users = await _userService.GetUsersByRegistrationDateAsync(startDate, endDate);
+            return Ok(users);
+        }
 
         [HttpPost("Create")]
         public async Task<IActionResult> CreateUser([FromBody] CreateUserDto userDto)

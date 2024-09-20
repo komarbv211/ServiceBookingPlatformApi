@@ -2,6 +2,7 @@
 using Core.Dto.DtoBooking;
 using Core.Entities;
 using Core.Interfaces;
+using Core.Specifications;
 using Data.Entities;
 
 namespace Core.Services
@@ -28,13 +29,24 @@ namespace Core.Services
             var booking = await _bookingRepository.GetByID(id);
             return _mapper.Map<BookingDto>(booking);
         }
+        public async Task<IEnumerable<BookingDto>> GetAllBookingsAndBookingDetailAsync()
+        {
+            var bookings = await _bookingRepository.GetListBySpec(new BookingSpecs.ActiveBookings());
+            return _mapper.Map<IEnumerable<BookingDto>>(bookings);
+        }
 
-        public async Task<int> CreateBookingAsync(CreateBookingDto createBookingDto)
+        public async Task<BookingDto> GetBookingByIdAndBookingDetailAsync(int id)
+        {
+            var booking = await _bookingRepository.GetItemBySpec(new BookingSpecs.ById(id));
+            return _mapper.Map<BookingDto>(booking);
+        }
+        public async Task CreateBookingAsync(CreateBookingDto createBookingDto)
         {
             var booking = _mapper.Map<BookingEntity>(createBookingDto);
             booking.BookingDetails = createBookingDto.BookingDetails.Select(bd =>
                 new BookingDetailEntity
                 {
+                    BookingId = booking.Id,
                     ServiceId = bd.ServiceId,
                     ScheduledDate = bd.ScheduledDate,
                     Address = bd.Address,
@@ -43,8 +55,6 @@ namespace Core.Services
 
             await _bookingRepository.Insert(booking);
             await _bookingRepository.Save();
-
-            return booking.Id; 
         }
 
         public async Task UpdateBookingAsync(UpdateBookingDto updateBookingDto)
@@ -55,8 +65,8 @@ namespace Core.Services
 
             _mapper.Map(updateBookingDto, booking);
 
-            
             await _bookingRepository.Update(booking);
+            await _bookingRepository.Save();
         }
         public async Task UpdatePaymentStatusAsync(int id, string status)
         {
