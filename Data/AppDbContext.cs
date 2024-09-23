@@ -15,6 +15,7 @@ namespace Data
         public DbSet<ServiceEntity> Services { get; set; }
         public DbSet<BookingEntity> Bookings { get; set; }
         public DbSet<BookingDetailEntity> BookingDetails { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

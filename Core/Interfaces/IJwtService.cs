@@ -5,9 +5,11 @@ namespace Core.Interfaces
 {
     public interface IJwtService
     {
-        // ------- Access Token
         IEnumerable<Claim> GetClaims(UserEntity user);
         string CreateToken(IEnumerable<Claim> claims);
-
+        string CreateRefreshToken();
+        IEnumerable<Claim> GetClaimsFromExpiredToken(string token);
+        bool IsRefreshTokenExpired(DateTime creationTime);
+        DateTime GetLastValidRefreshTokenDate();
     }
 }

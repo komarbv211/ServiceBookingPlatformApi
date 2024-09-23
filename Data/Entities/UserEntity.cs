@@ -10,5 +10,6 @@ namespace Data.Entities
         public string? Role { get; set; } 
         public DateTime CreatedDate { get; set; } 
         public DateTime LastLoginDate { get; set; }
+        public ICollection<RefreshToken>? RefreshTokens { get; set; }
     }
 }

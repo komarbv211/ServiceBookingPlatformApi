@@ -1,4 +1,5 @@
-﻿using Core.Dto.DtoAuthorization;
+﻿using Core.Dto;
+using Core.Dto.DtoAuthorization;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +28,11 @@ namespace ServiceBookingPlatformApi.Controllers
         {
             return Ok(await accountsService.Login(model));
         }
-
+        [HttpPost("refreshTokens")]
+        public async Task<IActionResult> RefreshTokens(UserTokens tokens)
+        {
+            return Ok(await accountsService.RefreshTokens(tokens));
+        }
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {

@@ -4,16 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using FluentValidation;
 using ServiceBookingPlatformApi.Middlewares;
-using Microsoft.AspNetCore.Identity;
-using Data.Entities;
 using Data.DataInitializer;
 using Core.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using ServiceBookingPlatformApi.ServiceExtensions;
+using ServiceBookingPlatformApi;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // Додаємо сервіси до контейнера
 builder.Services.AddControllers();
@@ -32,13 +30,16 @@ builder.Services.AddAuthorizationPolicies();
 
 // Налаштування Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+builder.Services.AddSwaggerJWT();
+
+builder.Services.AddHangfire(connectionString!);
 
 // Налаштування Identity з використанням ролей
 builder.Services.AddIdentityWithRoles();
 
 // Додаємо Entity Framework і контекст бази даних
-builder.Services.AddAppDbContext(builder.Configuration.GetConnectionString("DefaultConnection")!);
+builder.Services.AddAppDbContext(connectionString!);
 
 // Додаємо AutoMapper
 builder.Services.AddMapping();
@@ -72,5 +73,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<CustomMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.UseHangfireDashboard("/dash");
+JobConfigurator.AddJobs(); 
 app.MapControllers();
 app.Run();

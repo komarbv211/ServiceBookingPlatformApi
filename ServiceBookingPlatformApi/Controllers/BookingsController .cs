@@ -2,6 +2,8 @@
 using Core.Exceptions;
 using Core.Interfaces;
 using Core.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ namespace ServiceBookingPlatformApi.Controllers
             _bookingService = bookingService;
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllBookings()
         {
@@ -72,8 +75,8 @@ namespace ServiceBookingPlatformApi.Controllers
             return NoContent();
         }
 
-        [HttpPatch("pay/{id}")]
-        public async Task<IActionResult> MarkAsPaid(int id)
+        [HttpPatch("payStatus/{id}")]
+        public async Task<IActionResult> MarkAsPaid(int id, string PaidStatus)
         {
             var existingBooking = await _bookingService.GetBookingByIdAsync(id);
             if (existingBooking == null)
@@ -81,7 +84,7 @@ namespace ServiceBookingPlatformApi.Controllers
                 throw new HttpException("Booking not found!", HttpStatusCode.NotFound);
             }
 
-            await _bookingService.UpdatePaymentStatusAsync(id, "Paid");
+            await _bookingService.UpdatePaymentStatusAsync(id, PaidStatus);
             return NoContent();
         }
 
