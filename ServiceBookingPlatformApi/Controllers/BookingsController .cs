@@ -23,7 +23,7 @@ namespace ServiceBookingPlatformApi.Controllers
             _bookingService = bookingService;
         }
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAllBookings()
         {

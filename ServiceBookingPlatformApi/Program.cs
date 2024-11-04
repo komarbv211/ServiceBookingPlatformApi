@@ -12,7 +12,17 @@ using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
+// Додайте CORS політику
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200", "http://localhost:5173") 
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 // Додаємо сервіси до контейнера
 builder.Services.AddControllers();
 
@@ -71,6 +81,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<CustomMiddleware>();
+
+// Використовуйте CORS політику перед іншими middleware
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseHangfireDashboard("/dash");

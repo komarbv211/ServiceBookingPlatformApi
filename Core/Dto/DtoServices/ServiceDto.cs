@@ -11,7 +11,7 @@ namespace Core.Dto.DtoServices
         public string Provider { get; set; }
         public double Rating { get; set; }
         public int ReviewCount { get; set; }
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
         public int? CategoryId { get; set; }
     }
